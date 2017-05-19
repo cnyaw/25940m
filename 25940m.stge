@@ -1,0 +1,1133 @@
+
+script stage1
+  sleep(2)
+  repeat(2)
+    repeat(2)
+      call(small4)
+      call(way3)
+    end
+    call(spin)
+    call(small4)
+    call(split3)
+    option($rep)
+      call(stage1_a)
+      call(stage1_b)
+    end
+    call(tokukun)
+  end
+  call(song)
+  call(boss1)
+end
+
+script song
+  changey(0,-($h/2))
+  direction(90)
+  speed(60)
+  userdata(300,1)
+  repeat(120)
+    fire(deko_song)
+    sleep(0.1)
+  end
+  sleep(7.5)
+end
+
+script deko_song
+  changex(0,rand(-140,140))
+  sleep(rand(2,4))
+  speed(60)
+  direction(rand(-10,10),aim)
+  fire()
+end
+
+script stage1_a
+  call(ring6)
+  call(lazer)
+  sleep(10)
+end
+
+script stage1_b
+  call(eee)
+  call(fivecube)
+end
+
+script boss1
+  sleep(2)
+  changex(0,-($w/2))
+  userdata(300,999,1000)
+  fire(obj_boss)
+end
+
+script obj_boss
+  call(enter)
+  repeat(4)
+    call(obj_boss1, 0,$rep,3)
+  end
+  repeat(-1)
+    call(obj_boss1, rand(4), rand(4,9), rand(3))
+  end
+end
+
+script obj_boss1
+  ; 從上方進入
+  changex(0,0)
+  changey(0,-($h/2))
+  changey(1,-($h/4)-10)
+  sleep(2)
+  ; 左右平移
+  option($1)
+    call(shift)
+  end
+  ; 攻擊選段
+  option($2)
+    call(boss1_type_0) ; 左1發火花,右1發火花
+    call(boss1_type_1) ; ring
+    call(boss1_type_2) ; 螺旋
+    call(boss1_type_4,rand(360)) ; luna
+    call(boss1_type_3) ; wave
+    call(boss1_type_5) ; 360度亂射
+    call(boss1_type_6) ; 4角速移,雷射
+    call(boss1_type_7) ; circle
+    call(boss1_type_8,rand(360)) ; 快速跑道
+  end
+  ; 漣漪(出)
+  option($3)
+    fork(boss1_atk6)
+    fork(boss1_atk6)
+  end
+  changey(1,$h/2+16)
+  sleep(5)
+  ; 左掃右掃(進)
+  option(rand(3))
+    call(enter)
+    call(enter)
+  end
+  sleep(0) ;暫時,因為option(xxx)選不到東西,且是最後一個指令,有bug
+end
+
+script enter
+  ; 從畫面左方進入
+  changex(0,-($w/2+15))
+  changey(0,-($h/4)+rand(-15,15))
+  changex(2,($w/2+15))
+  fork(boss1_atk1)
+  sleep(3)
+  ; 從畫面右方進入
+  changey(0,-($h/4)+rand(-15,15))
+  changex(2,-($w/2+15))
+  fork(boss1_atk1)
+  sleep(3)
+end
+
+script shift
+  fork(boss1_atk2)
+  changex(2,100)
+  sleep(2)
+  repeat(2)
+    changex(4,-100)
+    sleep(4)
+    changex(4,100)
+    sleep(4)
+  end
+  changex(2,0)
+  sleep(3)
+end
+
+script boss1_type_0
+  speed(120)
+  userdata(0,0,1)
+  repeat(10)
+    direction(rand(30,70))
+    fire(bagan, rand(6) + 1)
+    sleep(0.5)
+    direction(rand(110,150))
+    fire(bagan, rand(6) + 1)
+    sleep(0.5)
+  end
+  sleep(2)
+end
+
+script boss1_type_1
+  changey(1,-50)
+  userdata(0,0,1)
+  sleep(1)
+  speed(0)
+  direction(0)
+  fire(ring1, 2)
+  direction(120)
+  fire(ring1, 3)
+  direction(240)
+  fire(ring1, 6)
+  sleep(14)
+end
+
+script boss1_type_2
+  changey(1,-50)
+  sleep(1)
+  speed(100)
+  repeat(500)
+    direction(10,add)
+    fire(pon)
+    sleep(0)
+  end
+  sleep(4)
+end
+
+script boss1_type_3
+  changey(0.5,-150)
+  sleep(0.5)
+  repeat(3)
+    call(wave1, 1 + rand(6), 1 + rand(6))
+  end
+  sleep(4)
+end
+
+script boss1_type_4
+  changey(1,-40)
+  sleep(1)
+  fork(luna1, $1+0, 10, 1)
+  fork(luna1, $1+90, 10, 1)
+  fork(luna1, $1+180, 10, 2)
+  fork(luna1, $1+270, 10, 2)
+  fork(luna2, $1+0, -12, 3)
+  fork(luna2, $1+90, -12, 3)
+  fork(luna2, $1+180, -12, 5)
+  fork(luna2, $1+270, -12, 5)
+  sleep(12)
+end
+
+script boss1_type_5
+  changey(1,-90)
+  sleep(1)
+  repeat(5)
+    fork(boss1_atk5)
+  end
+  sleep(9)
+end
+
+script boss1_type_6
+  sleep(1)
+  fork(aim_lazer)
+  changex(0.4,-180)
+  changey(0.4,-180)
+  sleep(1.5)
+  changex(0.4,180)
+  changey(0.4,180)
+  sleep(1.5)
+  changex(0.4,-180)
+  changey(0.4,180)
+  sleep(1.5)
+  changex(0.4,180)
+  changey(0.4,-180)
+  sleep(1.5)
+  changex(0.4,0)
+  changey(0.4,-100)
+  sleep(4)
+end
+
+script boss1_type_7
+  sleep(1)
+  repeat(3)
+    repeat(10)
+      fire(circle1, 30+12*$rep, rand(3), 1 + rand(5))
+      sleep(0.1)
+    end
+    repeat(10)
+      fire(circle1, 150-12*$rep, rand(3), 1 + rand(5))
+      sleep(0.1)
+    end
+  end
+  sleep(2)
+end
+
+script boss1_type_8
+  sleep(1)
+  repeat(9)
+    fork(hiway,$1+40*$rep,1)
+    fork(hiway,$1+34+40*$rep,-1)
+  end
+  sleep(7.5)
+end
+
+script hiway
+  userdata(0,0,1)
+  direction($1)
+  speed(260)
+  repeat(70)
+    direction($2,add)
+    fire()
+    sleep(0.06)
+  end
+end
+
+script luna1
+  userdata(0,0,$3)
+  direction($1)
+  speed(120)
+  repeat(140)
+    direction($2, add)
+    fire()
+    sleep(0.05)
+  end
+end
+
+script luna2
+  userdata(0,0,$3)
+  direction($1)
+  speed(80)
+  repeat(140)
+    direction($2, add)
+    fire()
+    sleep(0.05)
+  end
+end
+
+script aim_lazer
+  repeat(55)
+    direction(rand(-10,10),aim)
+    fire(lazer_a)
+    sleep(0.12)
+  end
+end
+
+script pon
+  sleep(rand(1,2))
+  option(rand(40))
+    fork(pon2)
+  end
+end
+
+script pon2
+  userdata(0,0,rand(1,6.9))
+  direction(rand(360))
+  speed(100)
+  repeat(12)
+    direction(30,add)
+    fire()
+  end
+  clear()
+end
+
+script ring1
+  changespeed(4, 250)
+  changedirection(10, 1200, add)
+  speed(80)
+  userdata(0,0,$1)
+  repeat(-1)
+    direction(90, obj)
+    fire()
+    direction(-90, obj)
+    fire()
+    sleep(0.1)
+  end
+end
+
+script circle1
+  changedirection(0, $1)
+  sleep(0.1)
+  speed(180 + 20 * $2)
+  userdata(0,0,$3)
+  repeat(8)
+    direction(45, add)
+    fire(circle2, $1, $3)
+  end
+  clear()
+end
+
+script circle2
+  sleep(0.2)
+  direction($1)
+  userdata(0,0,$2)
+  fire()
+  clear()
+end
+
+script boss1_atk1
+  repeat(80)
+    direction(rand(30,150))
+    speed(rand(120,160))
+    userdata(0,0,5)
+    fire()
+    sleep(0)
+  end
+end
+
+script boss1_atk2
+  repeat(6)
+    userdata(0,0,2)
+    repeat(40)
+      direction(rand(-30,30),aim)
+      speed(rand(120,140))
+      fire()
+      sleep(0)
+    end
+    sleep(0.8)
+    userdata(0,0,3)
+    repeat(40)
+      direction(rand(-30,30),aim)
+      speed(rand(120,140))
+      fire()
+      sleep(0)
+    end
+    sleep(0.8)
+  end
+end
+
+script bagan
+  sleep(rand(1,1.5))
+  speed(120)
+  userdata(0,0,$1)
+  repeat(24)
+    direction(15,add)
+    fire()
+  end
+end
+
+script wave1
+  speed(60)
+  direction(160)
+  repeat(14)
+    direction(-12, add)
+    fire(wave2, $1)
+    sleep(0.03)
+  end
+  sleep(0.5)
+  direction(20)
+  repeat(14)
+    direction(12, add)
+    fire(wave2, $2)
+    sleep(0.03)
+  end
+  sleep(0.5)
+end
+
+script wave2
+  speed(0)
+  userdata(0,0,$1)
+  repeat(8)
+    direction(1, add)
+    fire(wave3, 60 + 12 * $rep, 0.2 + 0.2 * $rep)
+  end
+  clear()
+end
+
+script wave3
+  changespeed($2, $1)
+  sleep($2)
+end
+
+script boss1_atk5
+  repeat(400)
+    direction(rand(360))
+    speed(rand(120,160))
+    userdata(0,0,1)
+    fire()
+    sleep(0)
+  end
+end
+
+script boss1_atk6
+  speed(100)
+  repeat(4)
+    repeat(30)
+      direction(12,add)
+      fire()
+    end
+    sleep(0.2)
+  end
+end
+
+script fivecube
+  changey(0,-($h/2),add)
+  speed(100)
+  direction(90)
+  userdata(300,50,4)
+  fire(deko9)
+  sleep(22)
+end
+
+script deko9
+  changespeed(3,0)
+  sleep(3)
+  direction(rand(360))
+  speed(160)
+  userdata(300,10)
+  repeat(9)
+    direction(40,add)
+    fire(deko9_sub)
+  end
+  userdata(0,0,1)
+  repeat(110)
+    direction(30,add)
+    fire()
+    sleep(0.1)
+  end
+  clear()
+end
+
+script deko9_sub
+  changespeed(1,0)
+  sleep(2)
+  direction(rand(360))
+  speed(120)
+  repeat(100)
+    direction(10,add)
+    fire()
+    sleep(0.1)
+  end
+  sleep(rand(0.7))
+  userdata(0,0,rand(7))
+  repeat(30)
+    direction(12,add)
+    fire()
+  end
+  clear()
+end
+
+script lazer
+  changey(0,-($h/2))
+  changex(0,100)
+  speed(100)
+  direction(90)
+  userdata(300,5,2)
+  fire(deko8)
+end
+
+script deko8
+  changespeed(2,0)
+  sleep(3)
+  speed(0)
+  userdata(0,1)
+  repeat(8)
+    direction(0,aim)
+    fire(lazer_a)
+    sleep(0.5)
+  end
+  changespeed(2,300)
+  sleep(2)
+end
+
+script lazer_a
+  direction(0,obj)
+  speed(360)
+  userdata(0,1)
+  repeat(6)
+    fire()
+    sleep(0.015)
+  end
+  clear()
+end
+
+script tokukun
+  sleep(2)
+  repeat(2)
+    fork(tokukun_left_right,-($w/2),-90,90,1)
+    fork(tokukun_left_right,$w/2,90,360,2)
+    fork(tokukun_top_bottom,-($h/2),0,180,3)
+    fork(tokukun_top_bottom,$h/2,180,360,0)
+    sleep(5)
+  end
+  sleep(2)
+end
+
+script tokukun_left_right
+  changex(0,$1,add)
+  userdata(0,0,$4)
+  repeat(20)
+    direction(rand($2,$3))
+    fire(tokukun_tb)
+  end
+end
+
+script tokukun_top_bottom
+  changey(0,$1,add)
+  userdata(0,0,$4)
+  repeat(20)
+    direction(rand($2,$3))
+    fire(tokukun_lr)
+  end
+end
+
+script tokukun_tb
+  changey(0,rand(-120,120),add)
+  changespeed(0,rand(80,100))
+end
+
+script tokukun_lr
+  changex(0,rand(-120,120),add)
+  changespeed(0,rand(80,100))
+end
+
+script split3
+  changey(0,-($h/2),add)
+  speed(100)
+  direction(90)
+  userdata(300,5,3)
+  fire(deko7)
+  sleep(8)
+end
+
+script deko7
+  changespeed(1,0)
+  sleep(1)
+  direction(0,aim)
+  speed(50)
+  fire(split3_a,5)
+  changespeed(1,200)
+  sleep(1)
+end
+
+script split3_a
+  option($1)
+    clear()
+  end
+  sleep(1)
+  direction(-30,aim)
+  speed(50)
+  repeat(3)
+    userdata(0,0,$1-1)
+    fire(split3_a,$1-1)
+    direction(30,add)
+  end
+end
+
+script eee
+  changey(0,-($h/2),add)
+  changex(0,-150,add)
+  speed(60)
+  direction(90)
+  userdata(300,5,4)
+  repeat(7)
+    fire(deko5)
+    changex(0,50,add)
+  end
+  sleep(6)
+end
+
+script deko5
+  speed(100)
+  direction(rand(360))
+  repeat(-1)
+    direction(90,add)
+    fire()
+    sleep(0.25)
+  end
+end
+
+script ring6
+  sleep(1)
+  changey(0,-($h/2))
+  changex(0,-100)
+  speed(120)
+  direction(90)
+  userdata(300,5,2)
+  fire(deko4)
+end
+
+script deko4
+  changespeed(1.8,0)
+  sleep(1.8)
+  speed(100)
+  repeat(10)
+    direction(rand(360))
+    repeat(20)
+      direction(18,add)
+      fire()
+    end
+    sleep(0.25)
+  end
+  changespeed(2, 200)
+  sleep(2)
+end
+
+script spin
+  changey(0, -($h/2),add)
+  speed(100)
+  direction(90)
+  userdata(300,5,3)
+  fire(deko3, 60, 10)
+  sleep(1)
+  fire(deko3, -60, 10)
+  sleep(6)
+end
+
+script deko3
+  changex(0, $1, add)
+  changespeed(2, 0)
+  sleep(1)
+  direction(0,aim)
+  speed(120)
+  repeat(40)
+    direction($2,add)
+    fire()
+    direction($2+15,add)
+    fire()
+    sleep(0)
+  end
+  sleep(2)
+  direction(0,aim)
+  repeat(80)
+    direction($2,add)
+    fire()
+    direction($2+15,add)
+    fire()
+    sleep(0)
+  end
+  changespeed(2, 200)
+  sleep(2)
+end
+
+script small4
+  fork(bbbsub, -100, 3)
+  sleep(1.2)
+  fork(bbbsub, 100, -3)
+  sleep(3.5)
+  fork(bbbsub, -100, 3)
+  sleep(1.2)
+  fork(bbbsub, 100, -3)
+  sleep(3)
+end
+
+script bbbsub
+  repeat(4)
+    changex(0, $2, add)
+    call(deko2, $1)
+    sleep(0.5)
+  end
+end
+
+script deko2
+  changex(0, $1, add);
+  changey(0, -($h/2),add);
+  speed(100)
+  direction(90)
+  userdata(300,3)
+  fire(deko2obj)
+end
+
+script deko2obj
+  sleep(rand(1,1.2))
+  speed(120)
+  direction(0, aim)
+  fire()
+  sleep(1.5)
+  direction(0, aim)
+  fire(deko1act)
+  sleep(1.5)
+end
+
+script way3
+  call(deko1, 100, $y)
+  call(deko1, -100, $y)
+  sleep(4)
+end
+
+script deko1
+  changex(0, $1, add)
+  changey(0, -($h/2), add)
+  speed(150)
+  direction(90)
+  userdata(300,3,2)
+  fire(deko1obj)
+end
+
+script deko1obj
+  changespeed(rand(1.3,1.5), 0)
+  sleep(1.5)
+  speed(100)
+  repeat(3)
+    direction(0, aim)
+    fire(deko1act)
+    sleep(0.25)
+  end
+  sleep(1)
+  changespeed(rand(3,3.2), 200)
+  repeat(4)
+    direction(0, aim)
+    fire(deko1act)
+    direction(19, aim)
+    fire(deko1act)
+    direction(-19, aim)
+    fire(deko1act)
+    sleep(0.25)
+  end
+  sleep(3)
+end
+
+script deko1act
+  speed(0, obj)
+  direction(27, obj)
+  fire()
+  direction(-27, obj)
+  fire()
+end
+
+script fx_hit
+  userdata(200,1,1,1)
+  repeat(14)
+    direction(rand(360))
+    speed(200)
+    fire(fx_bom, rand(0.2,0.3))
+  end
+end
+
+script fx_destroy
+  userdata(201)
+  repeat(22)
+    direction(rand(360))
+    speed(rand(160,200))
+    fire()
+  end
+end
+
+script fx_boss_destroy
+  userdata(203)
+  repeat(20)
+    direction(rand(360))
+    speed(rand(220,350))
+    fire(fx_bom,0.25)
+    sleep(0.08)
+  end
+end
+
+script fx_bom
+  sleep($1)
+  clear()
+end
+
+script fx_bom2
+  sleep($1)
+  call(fx_hit)
+end
+
+script weapon_1
+  speed(250)
+  userdata(100)
+  repeat(-1)
+    direction(270)
+    fire(weapon_1_1,5)
+    fire(weapon_1_1,-5)
+    sleep(0.1)
+  end
+end
+
+script weapon_1_1
+  changex(0,$1,add)
+end
+
+script pennn
+  speed(100)
+  userdata(202,1,1,0)
+  repeat(-1)
+    direction(rand(-35,35),add)
+    fire(penn_d,rand(0.2,0.3))
+    sleep(0.012)
+  end
+end
+
+script penn_d
+  sleep($1)
+  clear()
+end
+
+script main_menu_m
+  fork(main_menu,109)
+end
+
+script main_menu_f
+  fork(main_menu,70)
+end
+
+script main_menu
+  changey(0,-220)
+
+  ; 25940m/f
+  fork(achar,50,-100,-100)
+  fork(achar,53,-50,-100)
+  fork(achar,57,0,-100)
+  fork(achar,52,50,-100)
+  fork(achar,48,100,-100)
+  fork(achar,$1,130,-80)
+
+  ; Play Game
+  fork(achar,80,-60,40)
+  fork(achar,108,-44,40)
+  fork(achar,97,-28,40)
+  fork(achar,121,-12,40)
+
+  fork(achar,71,10,40)
+  fork(achar,97,26,40)
+  fork(achar,109,42,40)
+  fork(achar,101,58,40)
+
+  ; Homepage
+  fork(achar,72,-60,70)
+  fork(achar,111,-44,70)
+  fork(achar,109,-28,70)
+  fork(achar,101,-12,70)
+  fork(achar,112,4,70)
+  fork(achar,97,20,70)
+  fork(achar,103,36,70)
+  fork(achar,101,52,70)
+
+  ; Exit
+  fork(achar,69,-60,100)
+  fork(achar,120,-44,100)
+  fork(achar,105,-28,100)
+  fork(achar,116,-12,100)
+  
+  ; cursor, dummy
+  changex(0,-120)
+  changey(0,40)
+  userdata(500)
+  fire()
+end
+
+script game_menu
+  changey(0,-220)
+  
+  ; Resume Game
+  fork(achar,82,-60,-40)
+  fork(achar,101,-44,-40)
+  fork(achar,115,-28,-40)
+  fork(achar,117,-12,-40)
+  fork(achar,109,4,-40)
+  fork(achar,101,20,-40)
+
+  fork(achar,71,42,-40)
+  fork(achar,97,58,-40)
+  fork(achar,109,74,-40)
+  fork(achar,101,90,-40)
+  
+  ; menu
+  call(menu_a,-10)
+  
+  ; cursor, dummy
+  changex(0,-130)
+  changey(0,-40)
+  userdata(500)
+  fire()  
+end
+
+script game_over
+  changey(0,-220)
+  
+  ; Gameover
+  fork(achar,71,-90,-100)
+  fork(achar,97,-60,-100)
+  fork(achar,109,-30,-100)
+  fork(achar,101,0,-100)
+  fork(achar,111,30,-100)
+  fork(achar,118,60,-100)
+  fork(achar,111,90,-100)
+  fork(achar,114,120,-100)
+  
+  ; menu
+  call(menu_a,-20)
+  
+  ; cursor, dummy
+  changex(0,-130)
+  changey(0,-20)
+  userdata(500)
+  fire()
+end
+
+script menu_a
+  ; Play New Game
+  fork(achar,80,-60,$1)
+  fork(achar,108,-44,$1)
+  fork(achar,97,-28,$1)
+  fork(achar,121,-12,$1)
+
+  fork(achar,78,10,$1)
+  fork(achar,101,26,$1)
+  fork(achar,119,42,$1)
+  
+  fork(achar,71,64,$1)
+  fork(achar,97,80,$1)
+  fork(achar,109,96,$1)
+  fork(achar,101,112,$1)
+  
+  ; Main Menu
+  fork(achar,77,-60,$1+30)
+  fork(achar,97,-44,$1+30)
+  fork(achar,105,-28,$1+30)
+  fork(achar,110,-12,$1+30)
+
+  fork(achar,77,10,$1+30)
+  fork(achar,101,26,$1+30)
+  fork(achar,110,42,$1+30)
+  fork(achar,117,58,$1+30)
+  
+  ; Exit
+  fork(achar,69,-60,$1+60)
+  fork(achar,120,-44,$1+60)
+  fork(achar,105,-28,$1+60)
+  fork(achar,116,-12,$1+60)
+end
+
+script achar
+  changex(0,$2)
+  userdata(400,$1)
+  fire(objchar,rand(0.2,0.5),$3)
+end
+
+script objchar
+  changey($1,$2)
+  sleep($1)
+end
+
+script all_clear
+  changey(0,-220)
+  sleep(4)
+  
+  call(t_Congratulations,-140,-30)
+  sleep(6)
+   
+  call(t_Game,-150,-110)
+  sleep(0.25)
+  call(t_Design,-50,-110)
+  sleep(0.25)
+  call(t_waync,-130,-70)
+  sleep(3)
+  
+  call(t_Program,20,30)
+  sleep(0.25)
+  call(t_waync,50,70)
+  sleep(3)
+  
+  call(t_Art,-140,-110)
+  sleep(0.25)
+  call(t_Design,-70,-110)
+  sleep(0.25)
+  call(t_waync,-90,-70)
+  sleep(3)
+  
+  call(t_Level,-50,30)
+  sleep(0.25)
+  call(t_Design,60,30)
+  sleep(0.25)
+  call(t_waync,40,70)
+  sleep(3)
+  
+  call(t_Script,-140,-110)
+  sleep(0.25)
+  call(t_waync,-90,-70)
+  sleep(6)
+  
+  call(t_Fin,-60,-30)
+end
+
+script t_Congratulations
+  call(cac,67,$1,$2)
+  call(cac,111,$1+20,$2)
+  call(cac,110,$1+40,$2)
+  call(cac,103,$1+60,$2)
+  call(cac,114,$1+80,$2)
+  call(cac,97,$1+100,$2)
+  call(cac,116,$1+120,$2)
+  call(cac,117,$1+140,$2)
+  call(cac,108,$1+160,$2)
+  call(cac,97,$1+180,$2)
+  call(cac,116,$1+200,$2)
+  call(cac,105,$1+220,$2)
+  call(cac,111,$1+240,$2)
+  call(cac,110,$1+260,$2)
+  call(cac,115,$1+280,$2)
+end
+
+script t_Game
+  call(cac,71,$1,$2)
+  call(cac,97,$1+20,$2)
+  call(cac,109,$1+40,$2)
+  call(cac,101,$1+60,$2)
+end
+
+script t_Program
+  call(cac,80,$1,$2)
+  call(cac,114,$1+20,$2)
+  call(cac,111,$1+40,$2)
+  call(cac,103,$1+60,$2)
+  call(cac,114,$1+80,$2)
+  call(cac,97,$1+100,$2)
+  call(cac,109,$1+120,$2)  
+end
+
+script t_Level
+  call(cac,76,$1,$2)
+  call(cac,101,$1+20,$2)
+  call(cac,118,$1+40,$2)
+  call(cac,101,$1+60,$2)
+  call(cac,108,$1+80,$2)
+end
+
+script t_Design
+  call(cac,68,$1,$2)
+  call(cac,101,$1+20,$2)
+  call(cac,115,$1+40,$2)
+  call(cac,105,$1+60,$2)
+  call(cac,103,$1+80,$2)
+  call(cac,110,$1+100,$2)
+end
+
+script t_Art
+  call(cac,65,$1,$2)
+  call(cac,114,$1+20,$2)
+  call(cac,116,$1+40,$2)
+end
+
+script t_waync
+  call(cac,119,$1,$2)
+  call(cac,97,$1+20,$2)
+  call(cac,121,$1+40,$2)
+  call(cac,110,$1+60,$2)
+  call(cac,99,$1+80,$2)
+end
+
+script t_Script
+  call(cac,83,$1,$2)
+  call(cac,99,$1+20,$2)
+  call(cac,114,$1+40,$2)
+  call(cac,105,$1+60,$2)
+  call(cac,112,$1+80,$2)
+  call(cac,116,$1+100,$2)
+end
+
+script t_Fin
+  call(cac2,84,$1,$2)
+  call(cac2,104,$1+20,$2)
+  call(cac2,101,$1+40,$2)
+  
+  call(cac2,69,$1+70,$2)
+  call(cac2,110,$1+90,$2)
+  call(cac2,100,$1+110,$2)
+end
+
+script cac
+  userdata(400,$1,8)
+  fire(chac,$1,rand(0.2,0.5),$2,$3)
+end
+
+script cac2
+  userdata(400,$1,8)
+  fire(chac2,$1,rand(0.2,0.5),$2,$3)
+end
+
+script chac
+  changex($2,$3)
+  changey($2,$4)
+  sleep($2)
+  sleep(5)
+  changey(1,rand(240,300))
+  sleep(1)
+  clear()
+end
+
+script chac2
+  changex($2,$3)
+  changey($2,$4)
+  sleep($2)
+  sleep(12)
+  changey(1,rand(240,300))
+  sleep(3)
+  clear()
+end
