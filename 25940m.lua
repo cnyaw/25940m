@@ -533,7 +533,7 @@ Game.OnStep = function(param)
   end
 end
 
-bcolor = {0xffff0000,0xff00ff00,0xffffff00,0xff0000ff,0xff00ffff,0xffff00ff}
+local bcolor = {0xffff0000,0xff00ff00,0xffffff00,0xff0000ff,0xff00ffff,0xffff00ff}
 
 Game.OnNewParticle = function(param, particle, iMgr)
   local obj = -1
@@ -630,14 +630,12 @@ Game.OnUpdateParticle = function(param, particle, iMgr)
     if (ptInRect(ox,oy, x - 3, y - 3, x + 3, y + 3)) then -- hit my plane?
       PlaySound(sndHit)
       Stge.RunScript('fx_hit', x,y, OM_FX)
-
       if (MAX_HP ~= myhp) then
         Good.SetDim(objMyHp[myhp + 1], 0, 0, 0, 4)
       end
       Good.SetDim(objMyHp[myhp], 0, 0, 0, 4)
       tHealHp = 0
       myhp = myhp - 1
-
       if (0 < myhp) then -- kill all bullet
         local p = Stge.GetFirstParticle(OM_OBJECT)
         while (-1 ~= p) do
@@ -767,7 +765,6 @@ Player.OnStep = function(param)
       param.movefx = Stge.RunScript("pennn", x, y, OM_FX)
       Stge.BindTask(param.movefx, param.dummy2, OM_FX)
     end
-
     if (-1 ~= param.movefx) then
       local dir = 0 -- default right
       if (Input.IsKeyDown(Input.UP)) then
@@ -777,7 +774,6 @@ Player.OnStep = function(param)
       elseif (Input.IsKeyDown(Input.LEFT)) then
         dir = 180
       end
-
       Stge.SetTaskDirection(param.movefx, dir + 180, OM_FX)
     end
   elseif (-1 ~= param.movefx) then
