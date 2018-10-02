@@ -68,50 +68,50 @@ script obj_boss
 end
 
 script obj_boss1
-  ; ±q¤W¤è¶i¤J
+  ; å¾ä¸Šæ–¹é€²å…¥
   changex(0,0)
   changey(0,-($h/2))
   changey(1,-($h/4)-10)
   sleep(2)
-  ; ¥ª¥k¥­²¾
+  ; å·¦å³å¹³ç§»
   option($1)
     call(shift)
   end
-  ; §ğÀ»¿ï¬q
+  ; æ”»æ“Šé¸æ®µ
   option($2)
-    call(boss1_type_0) ; ¥ª1µo¤õªá,¥k1µo¤õªá
+    call(boss1_type_0) ; å·¦1ç™¼ç«èŠ±,å³1ç™¼ç«èŠ±
     call(boss1_type_1) ; ring
-    call(boss1_type_2) ; Á³±Û
+    call(boss1_type_2) ; èºæ—‹
     call(boss1_type_4,rand(360)) ; luna
     call(boss1_type_3) ; wave
-    call(boss1_type_5) ; 360«×¶Ã®g
-    call(boss1_type_6) ; 4¨¤³t²¾,¹p®g
+    call(boss1_type_5) ; 360åº¦äº‚å°„
+    call(boss1_type_6) ; 4è§’é€Ÿç§»,é›·å°„
     call(boss1_type_7) ; circle
-    call(boss1_type_8,rand(360)) ; §Ö³t¶]¹D
+    call(boss1_type_8,rand(360)) ; å¿«é€Ÿè·‘é“
   end
-  ; º§º¬(¥X)
+  ; æ¼£æ¼ª(å‡º)
   option($3)
     fork(boss1_atk6)
     fork(boss1_atk6)
   end
   changey(1,$h/2+16)
   sleep(5)
-  ; ¥ª±½¥k±½(¶i)
+  ; å·¦æƒå³æƒ(é€²)
   option(rand(3))
     call(enter)
     call(enter)
   end
-  sleep(0) ;¼È®É,¦]¬°option(xxx)¿ï¤£¨ìªF¦è,¥B¬O³Ì«á¤@­Ó«ü¥O,¦³bug
+  sleep(0) ;æš«æ™‚,å› ç‚ºoption(xxx)é¸ä¸åˆ°æ±è¥¿,ä¸”æ˜¯æœ€å¾Œä¸€å€‹æŒ‡ä»¤,æœ‰bug
 end
 
 script enter
-  ; ±qµe­±¥ª¤è¶i¤J
+  ; å¾ç•«é¢å·¦æ–¹é€²å…¥
   changex(0,-($w/2+15))
   changey(0,-($h/4)+rand(-15,15))
   changex(2,($w/2+15))
   fork(boss1_atk1)
   sleep(3)
-  ; ±qµe­±¥k¤è¶i¤J
+  ; å¾ç•«é¢å³æ–¹é€²å…¥
   changey(0,-($h/4)+rand(-15,15))
   changex(2,-($w/2+15))
   fork(boss1_atk1)
