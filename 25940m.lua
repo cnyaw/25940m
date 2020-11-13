@@ -283,7 +283,7 @@ function HandleToggleSound()
   -- toggle snd
   if (Input.IsKeyPushed(Input.LBUTTON)) then
     local x,y = Input.GetMousePos()
-    if (idToggleSnd == Good.PickObj(x, y, Good.TEXBG)) then
+    if (PtInObj(x, y, idToggleSnd)) then
       if (enableSnd) then
         enableSnd = false
         Good.SetBgColor(idToggleSnd, 0x80ffffff)
