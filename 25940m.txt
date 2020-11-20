@@ -212,6 +212,7 @@ name=bk1
 texture=7
 repX=1
 repY=1
+dim=0 0 135 77
 
 [object24]
 name=cloud1
@@ -233,4 +234,5 @@ dim=0 0 216 380
 texture=32
 x=336
 y=336
+dim=0 0 40 40
 
