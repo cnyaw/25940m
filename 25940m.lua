@@ -186,14 +186,14 @@ function doShowMenu(name, maxitem)
   setMgrActive(0)
   Stge.RunScript(name, 0, 0, OM_MENU)
   PlaySound(sndCursor)
-  Good.SetVisible(idToggleSnd, 1)
+  Good.SetVisible(idToggleSnd, Good.VISIBLE)
 end
 
 function doHideMenu()
   ShowMenu = false
   setMgrActive(1)
   Stge.KillAllParticle(OM_MENU)
-  Good.SetVisible(idToggleSnd, 0)
+  Good.SetVisible(idToggleSnd, Good.INVISIBLE)
 end
 
 function sInit(param)
@@ -272,7 +272,7 @@ function selectMenuItem(param, nextStage)
   applySelMenuFx()
   param.nextStage = nextStage
   param.stage = sWaitMenuFx
-  Good.SetVisible(idToggleSnd, 0)
+  Good.SetVisible(idToggleSnd, Good.INVISIBLE)
 end
 
 function sQuit(param)
