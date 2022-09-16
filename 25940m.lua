@@ -315,7 +315,7 @@ function sMainMenu(param)
     if (0 == iMenu) then -- start game
       selectMenuItem(param, sNewGame)
     elseif (1 == iMenu) then -- goto homepage
-      Good.OpenUrl('http://www.smallworld.idv.tw')
+      Good.FireUserIntEvent(1)
     else
       selectMenuItem(param, sQuit)
     end
