@@ -336,6 +336,16 @@ function sGame(param)
   -- scroll bkgnd
   scrollBkgnd(param)
 
+  -- Update particles.
+  if (not ShowMenu) then
+    local p = Stge.GetFirstParticle(OM_OBJECT)
+    while (-1 ~= p) do
+      local nextp = Stge.GetNextParticle(p, OM_OBJECT)
+      OnUpdateParticle(param, p)
+      p = nextp
+    end
+  end
+
   -- update boss hp bar
   if (-1 == idBoss) then
     return
@@ -610,16 +620,7 @@ function ptInRect(x, y, left, top, right, bottom)
   end
 end
 
-Game.OnUpdateParticle = function(param, particle, iMgr)
-  if (ShowMenu) then
-    return
-  end
-
-  -- only check objects
-  if (OM_OBJECT ~= iMgr) then
-    return
-  end
-
+function OnUpdateParticle(param, particle)
   -- emeny bullet
   local t = Stge.GetUserData(particle, 0)
   local t2 = Stge.GetUserData(particle, 2)
