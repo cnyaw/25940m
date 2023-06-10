@@ -551,10 +551,16 @@ Game.OnNewParticle = function(param, particle, iMgr)
   if (MYBULLETS == t) then -- mybullet
     obj = Good.GenObj(-1, mybullet)
   elseif (BULLETS == t) then -- enemy bullet
-    obj = Good.GenObj(-1, bullet)
-    local c = math.floor(Stge.GetUserData(particle, 2, iMgr))
-    if (0 ~= c) then
-      Good.SetBgColor(obj, bcolor[c])
+    local t1 = Stge.GetUserData(particle, 1, iMgr)
+    if (1 == t1) then                   -- Lazer.
+      obj = GenColorObj(-1, 64, 8, 0xffffffff)
+      Good.SetRot(obj, Stge.GetDirection(particle))
+    else
+      obj = Good.GenObj(-1, bullet)
+      local c = math.floor(Stge.GetUserData(particle, 2, iMgr))
+      if (0 ~= c) then
+        Good.SetBgColor(obj, bcolor[c])
+      end
     end
   elseif (OBJECTS == t) then -- objects
     local t2 = Stge.GetUserData(particle, 2, iMgr)
