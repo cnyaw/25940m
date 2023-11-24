@@ -618,14 +618,6 @@ Game.OnKillParticle = function(param, particle, iMgr)
   Good.KillObj(Stge.GetParticleBind(particle, iMgr))
 end
 
-function ptInRect(x, y, left, top, right, bottom)
-  if (left <= x and right > x and top <= y and bottom > y) then
-    return true
-  else
-    return false
-  end
-end
-
 function OnUpdateParticle(param, particle)
   -- emeny bullet
   local t = Stge.GetUserData(particle, 0)
@@ -634,7 +626,7 @@ function OnUpdateParticle(param, particle)
     local x,y = Good.GetPos(param.player)
     local id = Stge.GetParticleBind(particle)
     local ox,oy = Good.GetPos(id)
-    if (ptInRect(ox,oy, x - 3, y - 3, x + 3, y + 3)) then -- hit my plane?
+    if (PtInRect(ox,oy, x - 3, y - 3, x + 3, y + 3)) then -- hit my plane?
       PlaySound(sndHit)
       Stge.RunScript('fx_hit', x,y, OM_FX)
       if (MAX_HP ~= myhp) then
@@ -672,7 +664,7 @@ function OnUpdateParticle(param, particle)
     for i = 1, nc do
       local obj = Stge.GetParticleBind(mb, OM_MYBULLET)
       local x,y = Good.GetPos(obj)
-      if (ptInRect(x,y, ox - 6, oy - 6, ox + 6, oy + 6)) then
+      if (PtInRect(x,y, ox - 6, oy - 6, ox + 6, oy + 6)) then
         Stge.KillParticle(mb, OM_MYBULLET)
         hp = hp - 1
         if (0 >= hp) then
