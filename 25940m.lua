@@ -280,20 +280,19 @@ function sQuit(param)
 end
 
 function HandleToggleSound()
-  -- toggle snd
   if (Input.IsKeyPushed(Input.LBUTTON)) then
     local x,y = Input.GetMousePos()
     if (PtInObj(x, y, idToggleSnd)) then
       if (enableSnd) then
         enableSnd = false
-        Good.SetBgColor(idToggleSnd, 0x80ffffff)
+        Good.SetAlpha(idToggleSnd, 0x80)
         if (-1 ~= bgm_id) then
           Sound.KillSound(bgm_id)
           bgm_id = -1
         end
       else
         enableSnd = true
-        Good.SetBgColor(idToggleSnd, 0xffffffff)
+        Good.SetAlpha(idToggleSnd, 0xff)
         bgm_id = Sound.PlaySound(sndBgm)
       end
     end
